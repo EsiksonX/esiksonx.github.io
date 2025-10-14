@@ -2,7 +2,8 @@
 permalink: /
 title: "Yang Xiang"
 author_profile: true
-redirect_from: 
+redirect_from:
+  - /about
   - /about.html
 ---
 
