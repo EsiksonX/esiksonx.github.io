@@ -1,0 +1,42 @@
+<div class="pub-card type-{{ pub.pub_type | downcase }}">
+  <div class="pub-card-deco"></div>
+  <div class="pub-card-content-wrapper">
+    {% if pub.thumbnail %}
+    <div class="pub-card-thumb">
+      <img src="{{ pub.thumbnail }}" alt="{{ pub.title }}">
+    </div>
+    {% endif %}
+    <div class="pub-card-body">
+      <div class="pub-card-year">
+        {{ pub.date | date: "%Y" }}
+      </div>
+      <div class="pub-card-title">{{ pub.title }}</div>
+      <div class="pub-card-authors">{{ pub.authors }}</div>
+      {% if pub.venue %}
+      <div class="pub-card-venue">{{ pub.venue }}</div>
+      {% endif %}
+      <div class="pub-card-badges">
+        {% if pub.link_article %}
+          <a href="{{ pub.link_article }}" target="_blank" class="badge-link badge-article">
+            {% if pub.type_article == "arXiv" %}
+              <img class="badge-icon" src="/assets/icons/arxiv.svg" alt="arXiv">
+            {% elsif pub.type_article == "doi" %}
+              <img class="badge-icon" src="/assets/icons/doi.svg" alt="DOI">
+            {% else %}
+              <img class="badge-icon" src="/assets/icons/link.svg" alt="Article">
+            {% endif %}
+          </a>
+        {% endif %}
+        {% if pub.link_code %}
+          <a href="{{ pub.link_code }}" target="_blank" class="badge-link badge-code">
+            {% if pub.type_code == "github" %}
+              <img class="badge-icon" src="/assets/icons/github.svg" alt="GitHub">
+            {% else %}
+              <img class="badge-icon" src="/assets/icons/code.svg" alt="Code">
+            {% endif %}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

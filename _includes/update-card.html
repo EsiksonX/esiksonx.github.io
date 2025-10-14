@@ -1,0 +1,43 @@
+<div class="update-card">
+  <div class="update-card-deco"></div>
+  <div class="update-card-content-wrapper">
+    {% if update.thumbnail %}
+    <div class="update-card-thumb">
+      <img src="{{ update.thumbnail }}" alt="{{ update.title }}">
+    </div>
+    {% endif %}
+    <div class="update-card-body">
+      <div class="update-card-header">
+        <span class="update-card-date">{{ update.date | date: "%Y-%m-%d" }}</span>
+      </div>
+      <div class="update-card-title">{{ update.title }}</div>
+      <div class="update-card-badges">
+        {% if update.link_article %}
+          <a href="{{ update.link_article }}" target="_blank" class="badge-link badge-article">
+            {% if update.type_article == "arXiv" %}
+              <img class="badge-icon" src="/assets/icons/arxiv.svg" alt="arXiv">
+            {% elsif update.type_article == "doi" %}
+              <img class="badge-icon" src="/assets/icons/doi.svg" alt="DOI">
+            {% else %}
+              <img class="badge-icon" src="/assets/icons/link.svg" alt="Article">
+            {% endif %}
+          </a>
+        {% endif %}
+        {% if update.link_code %}
+          <a href="{{ update.link_code }}" target="_blank" class="badge-link badge-code">
+            {% if update.type_code == "github" %}
+              <img class="badge-icon" src="/assets/icons/github.svg" alt="GitHub">
+            {% else %}
+              <img class="badge-icon" src="/assets/icons/code.svg" alt="Code">
+            {% endif %}
+          </a>
+        {% endif %}
+      </div>
+      {% if update.described %}
+      <div class="update-card-describe">
+        {{ update.described }}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>

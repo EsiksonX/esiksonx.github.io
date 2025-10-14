@@ -11,54 +11,40 @@ redirect_from:
 
 Education
 ======
-* Ph.D in Version Control Theory, GitHub University, 2018 (expected)
-* M.S. in Jekyll, GitHub University, 2014
-* B.S. in GitHub, GitHub University, 2012
+* BSc with Honours in Information and Computing Science, University of Liverpool, UK, 2019 - 2023
+  * Relevant modules: Machine Learning, Data Mining, Algorithms and Data Structures, Databases, Software Engineering, Operating Systems
+* PhD in Computer Science and Software Engineering, The University of Liverpool, UK, 2023 - Present
+  * Research interests: Recommender Systems, Graph Learning, AI for Science
 
-Work experience
-======
-* Spring 2024: Academic Pages Collaborator
-  * GitHub University
-  * Duties includes: Updates and improvements to template
-  * Supervisor: The Users
+<!-- Work experience
+====== -->
 
-* Fall 2015: Research Assistant
-  * GitHub University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
-
-* Summer 2015: Research Assistant
-  * GitHub University
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
-  
 Skills
 ======
-* Skill 1
-* Skill 2
-  * Sub-skill 2.1
-  * Sub-skill 2.2
-  * Sub-skill 2.3
-* Skill 3
-
-Publications
-======
-  <ul>{% for post in site.publications reversed %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
-  
-Talks
-======
-  <ul>{% for post in site.talks reversed %}
-    {% include archive-single-talk-cv.html  %}
-  {% endfor %}</ul>
+* Programming languages: Python, Java, C/C++, SQL, HTML/CSS, JavaScript
+* Frameworks and libraries: PyTorch
+* Languages: English (Fluent), Chinese (Native)
   
 Teaching
 ======
-  <ul>{% for post in site.teaching reversed %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
-  
-Service and leadership
+* Teaching Assistant for "Big Data Analytics", Xi'an Jiaotong-Liverpool University, 2025
+  * Responsibilities: Conducting lab sessions, assisting students with big data processing using Python, grading coursework, and providing feedback to improve students' understanding of big data concepts.
+
+* Teaching Assistant for "Game Design and Development", Xi'an Jiaotong-Liverpool University, 2025
+  * Responsibilities: Conducting lab sessions, assisting students with game development projects in Unity, grading coursework, and providing feedback to improve students' understanding of game design principles.
+
+* Teaching Assistant for "Java Programming", Xi'an Jiaotong-Liverpool University, 2024 - 2025
+  * Responsibilities: Conducting lab sessions, assisting students with programming assignments, grading coursework, and providing feedback to improve students' coding skills.
+
+* Teaching Assistant for "Introduction to Databases", Xi'an Jiaotong-Liverpool University, 2024
+  * Responsibilities: Conducting lab sessions, assisting students with database design projects, grading coursework, and providing feedback to improve students' understanding of database concepts.
+
+* Teaching Assistant for "Software Engineering Group Project", Xi'an Jiaotong-Liverpool University, 2023 - 2024
+  * Responsibilities: Supervising student groups, providing guidance on project management and software development practices, and evaluating project deliverables.
+
+* Teaching Assistant for "Introduction to Programming in Java", Xi'an Jiaotong-Liverpool University, 2023 - 2024
+  * Responsibilities: Conducting lab sessions, assisting students with programming assignments, grading coursework, and providing feedback to improve students' coding skills.
+
+Academic Service
 ======
-* Currently signed in to 43 different slack teams
+* Reviewer for IEEE 28th International Conference on Computer Supported Cooperative Work in Design (CSCWD 2025)
