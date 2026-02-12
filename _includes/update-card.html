@@ -14,10 +14,14 @@
       <div class="update-card-badges">
         {% if update.link_article %}
           <a href="{{ update.link_article }}" target="_blank" class="badge-link badge-article">
-            {% if update.type_article == "arXiv" %}
+            {% if pub.type_article == "arXiv" %}
               <img class="badge-icon" src="/assets/icons/arxiv.svg" alt="arXiv">
-            {% elsif update.type_article == "doi" %}
+            {% elsif pub.type_article == "doi" %}
               <img class="badge-icon" src="/assets/icons/doi.svg" alt="DOI">
+            {% elsif pub.type_article == "acm" %}
+              <img class="badge-icon" src="/assets/icons/acm.svg" alt="ACM DL">
+            {% elsif pub.type_article == "ieee" %}
+              <img class="badge-icon" src="/assets/icons/ieee.svg" alt="IEEE Xplore">
             {% else %}
               <img class="badge-icon" src="/assets/icons/link.svg" alt="Article">
             {% endif %}
