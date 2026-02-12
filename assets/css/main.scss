@@ -115,7 +115,6 @@
 
       .badge-link {
         display: inline-block;
-        // width: 72px;
 
         .badge-icon {
           max-width: 100%;
@@ -206,20 +205,23 @@
     .pub-card-badges {
       display: flex;
       align-items: center;
-      gap: 0.5em;
-
+      column-gap: 0.9em;
+      row-gap: 0.4em;
+      
       .badge-link {
         display: inline-flex;
         align-items: center;
         height: 20px;
         line-height: 0;
-        width: auto;
+        flex: 0 0 auto;
       }
 
       .badge-icon {
         display: block;
         height: 100%;
         width: auto;
+        max-width: none;
+        max-height: none;
       }
     }
   }
