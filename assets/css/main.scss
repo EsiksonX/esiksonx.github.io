@@ -42,6 +42,95 @@
     "vendor/font-awesome/brands"
 ;
 
+// .update-card {
+//   position: relative;
+//   display: flex;
+//   border: 1px solid #ddd;
+//   border-radius: 8px;
+//   overflow: hidden;
+//   margin: 1em 0;
+//   background-color: #fff;
+//   transition: box-shadow 0.2s;
+
+//   &:hover {
+//     box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+//   }
+
+//   .update-card-deco {
+//     width: 4px;
+//     background-color: #ff6600;
+//   }
+
+//   .update-card-content-wrapper {
+//     display: flex;
+//     flex: 1;
+//     text-align: left;
+//   }
+
+//   .update-card-thumb {
+//     flex-shrink: 0;
+//     width: 120px;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     background-color: #f9f9f9;
+//     overflow: hidden;
+
+//     img {
+//       max-width: 100%;
+//       max-height: 100%;
+//       object-fit: cover;
+//       display: block;
+//     }
+//   }
+
+//   .update-card-body {
+//     padding: 0.75em;
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: flex-start;
+//     flex: 1;
+
+//     .update-card-header {
+//       margin-bottom: 0.2em;
+
+//       .update-card-date {
+//         font-size: 0.85em;
+//         color: #666;
+//       }
+//     }
+
+//     .update-card-title {
+//       font-size: 1.2em;
+//       font-weight: 600;
+//       color: #333;
+//       margin-bottom: 0.25em;
+//       line-height: 1.2;
+//     }
+
+//     .update-card-badges {
+//       display: flex;
+//       align-items: center;
+//       gap: 0.6em;
+
+//       .badge-link {
+//         display: inline-block;
+
+//         .badge-icon {
+//           max-width: 100%;
+//           max-height: 100%;
+//         }
+//       }
+//     }
+
+//     .update-card-describe {
+//       margin-top: 0.5em;         /* 徽标下面与描述之间的距离 */
+//       font-size: 0.9em;
+//       color: #555;
+//       line-height: 1.3;
+//     }
+//   }
+// }
 .update-card {
   position: relative;
   display: flex;
@@ -53,18 +142,19 @@
   transition: box-shadow 0.2s;
 
   &:hover {
-    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
   }
 
   .update-card-deco {
-    width: 4px;
-    background-color: #ff6600;
+    width: 6px;                 // 和 pub-card 一致（你也可以保留 4px）
+    background-color: #ff6600;  // 保留你的橙色
   }
 
   .update-card-content-wrapper {
     display: flex;
     flex: 1;
     text-align: left;
+    min-width: 0;               // 防止 flex 子元素撑爆导致挤压
   }
 
   .update-card-thumb {
@@ -90,6 +180,7 @@
     flex-direction: column;
     justify-content: flex-start;
     flex: 1;
+    min-width: 0;
 
     .update-card-header {
       margin-bottom: 0.2em;
@@ -108,30 +199,39 @@
       line-height: 1.2;
     }
 
+    /* ✅ 关键：badge 区域按 pub-card 的方式处理 */
     .update-card-badges {
       display: flex;
       align-items: center;
-      gap: 0.6em;
+      flex-wrap: wrap;        // 不够就换行，避免挤压/重叠
+      column-gap: 0.9em;      // 横向间距更大
+      row-gap: 0.4em;         // 换行后的纵向间距
 
       .badge-link {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        height: 20px;
+        line-height: 0;
+        flex: 0 0 auto;       // 不允许被 flex 压缩（避免“缩放难看”）
+      }
 
-        .badge-icon {
-          max-width: 100%;
-          max-height: 100%;
-        }
+      .badge-icon {
+        display: block;
+        height: 100%;
+        width: auto;
+        max-width: none;      // 取消 100% 限制，避免被拉伸/压缩
+        max-height: none;
       }
     }
 
     .update-card-describe {
-      margin-top: 0.5em;         /* 徽标下面与描述之间的距离 */
+      margin-top: 0.5em;
       font-size: 0.9em;
       color: #555;
       line-height: 1.3;
     }
   }
 }
-
 
 .pub-card {
   position: relative;
