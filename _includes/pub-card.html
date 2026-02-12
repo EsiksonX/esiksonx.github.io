@@ -1,4 +1,4 @@
-<!-- <div class="pub-card type-{{ pub.pub_type | downcase }}">
+<div class="pub-card type-{{ pub.pub_type | downcase }}">
   <div class="pub-card-deco"></div>
   <div class="pub-card-content-wrapper">
     {% if pub.thumbnail %}
@@ -19,7 +19,7 @@
         {% if pub.link_article %}
           <a href="{{ pub.link_article }}" target="_blank" class="badge-link badge-article">
             {% if pub.type_article == "arXiv" %}
-              <img class="badge-icon" src="/assets/icons/arxiv.svg" alt="arXiv">
+              <img class="badge-icon" src="https://img.shields.io/badge/arXiv-Paper-B31B1B?style=flat-square&logo=arxiv" alt="arXiv">
             {% elsif pub.type_article == "doi" %}
               <img class="badge-icon" src="/assets/icons/doi.svg" alt="DOI">
             {% else %}
@@ -36,135 +36,6 @@
             {% endif %}
           </a>
         {% endif %}
-      </div>
-    </div>
-  </div>
-</div> -->
-
-<div class="pub-card type-{{ pub.pub_type | downcase }}">
-  <div class="pub-card-deco"></div>
-  <div class="pub-card-content-wrapper">
-    {% if pub.thumbnail %}
-    <div class="pub-card-thumb">
-      <img src="{{ pub.thumbnail }}" alt="{{ pub.title }}">
-    </div>
-    {% endif %}
-
-    <div class="pub-card-body">
-      <div class="pub-card-year">
-        {{ pub.date | date: "%Y" }}
-      </div>
-
-      <div class="pub-card-title">{{ pub.title }}</div>
-      <div class="pub-card-authors">{{ pub.authors }}</div>
-
-      {% if pub.venue %}
-      <div class="pub-card-venue">{{ pub.venue }}</div>
-      {% endif %}
-
-      <div class="pub-card-badges">
-
-        {% if pub.link_article %}
-          {% assign article_type = pub.type_article | default: "article" | downcase %}
-
-          {% if article_type == "arxiv" %}
-            {% assign arxiv_id = pub.link_article | split: "/" | last %}
-            <a href="{{ pub.link_article }}" target="_blank" rel="noopener noreferrer" class="badge-link badge-article">
-              <img
-                class="badge-img"
-                loading="lazy"
-                src="https://img.shields.io/static/v1?label=arXiv&amp;message={{ arxiv_id | uri_escape }}&amp;color=B31B1B&amp;style=flat-square&amp;logo=arxiv&amp;logoColor=white"
-                alt="arXiv: {{ arxiv_id }}"
-              >
-            </a>
-
-          {% elsif article_type == "doi" %}
-            {% assign doi_val = pub.link_article
-              | replace: "https://doi.org/", ""
-              | replace: "http://doi.org/", ""
-              | replace: "https://dx.doi.org/", ""
-              | replace: "http://dx.doi.org/", ""
-            %}
-            <a href="{{ pub.link_article }}" target="_blank" rel="noopener noreferrer" class="badge-link badge-article">
-              <img
-                class="badge-img"
-                loading="lazy"
-                src="https://img.shields.io/static/v1?label=DOI&amp;message={{ doi_val | uri_escape }}&amp;color=0A0A0A&amp;style=flat-square&amp;logo=doi&amp;logoColor=white"
-                alt="DOI: {{ doi_val }}"
-              >
-            </a>
-
-          {% elsif article_type == "acm" or article_type == "acm dl" or article_type == "acmdl" %}
-            {% assign acm_doi = pub.link_article
-              | replace: "https://dl.acm.org/doi/abs/", ""
-              | replace: "http://dl.acm.org/doi/abs/", ""
-              | replace: "https://dl.acm.org/doi/", ""
-              | replace: "http://dl.acm.org/doi/", ""
-            %}
-            <a href="{{ pub.link_article }}" target="_blank" rel="noopener noreferrer" class="badge-link badge-article">
-              <img
-                class="badge-img"
-                loading="lazy"
-                src="https://img.shields.io/static/v1?label=ACM%20DL&amp;message={{ acm_doi | uri_escape }}&amp;color=00629B&amp;style=flat-square&amp;logo=acm&amp;logoColor=white"
-                alt="ACM DL: {{ acm_doi }}"
-              >
-            </a>
-
-          {% elsif article_type == "ieee" or article_type == "ieeexplore" or article_type == "ieee xplore" %}
-            {% assign ieee_id = pub.link_article | split: "/" | last %}
-            <a href="{{ pub.link_article }}" target="_blank" rel="noopener noreferrer" class="badge-link badge-article">
-              <img
-                class="badge-img"
-                loading="lazy"
-                src="https://img.shields.io/static/v1?label=IEEE%20Xplore&amp;message={{ ieee_id | uri_escape }}&amp;color=00629B&amp;style=flat-square&amp;logo=ieee&amp;logoColor=white"
-                alt="IEEE Xplore: {{ ieee_id }}"
-              >
-            </a>
-
-          {% else %}
-            <a href="{{ pub.link_article }}" target="_blank" rel="noopener noreferrer" class="badge-link badge-article">
-              <img
-                class="badge-img"
-                loading="lazy"
-                src="https://img.shields.io/static/v1?label=Article&amp;message=Link&amp;color=555555&amp;style=flat-square&amp;logoColor=white"
-                alt="Article"
-              >
-            </a>
-          {% endif %}
-        {% endif %}
-
-
-        {% if pub.link_code %}
-          {% assign code_type = pub.type_code | default: "code" | downcase %}
-
-          {% if code_type == "github" %}
-            {% assign repo_path = pub.link_code
-              | replace: "https://github.com/", ""
-              | replace: "http://github.com/", ""
-              | split: "?" | first
-              | split: "#" | first
-            %}
-            <a href="{{ pub.link_code }}" target="_blank" rel="noopener noreferrer" class="badge-link badge-code">
-              <img
-                class="badge-img"
-                loading="lazy"
-                src="https://img.shields.io/static/v1?label=GitHub&amp;message={{ repo_path | uri_escape }}&amp;color=181717&amp;style=flat-square&amp;logo=github&amp;logoColor=white"
-                alt="GitHub: {{ repo_path }}"
-              >
-            </a>
-
-          {% else %}
-            <a href="{{ pub.link_code }}" target="_blank" rel="noopener noreferrer" class="badge-link badge-code">
-              <img
-                class="badge-img"
-                loading="lazy"
-                src="https://img.shields.io/static/v1?label=Code&amp;message=Link&amp;color=555555&amp;style=flat-square"
-                alt="Code"
-              >
-            </a>
-          {% endif %}
-        {% endif %}
-
       </div>
     </div>
   </div>
