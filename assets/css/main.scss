@@ -294,3 +294,24 @@
     }
   }
 }
+
+.pub-card .pub-card-body .pub-card-badges{
+  display: flex !important;
+  align-items: center;
+  flex-wrap: wrap !important;
+  column-gap: 0.9em !important;
+  row-gap: 0.4em !important;
+}
+
+.pub-card .pub-card-body .pub-card-badges .badge-link{
+  width: auto !important;
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+}
+
+.pub-card .pub-card-body .pub-card-badges .badge-icon{
+  height: 20px !important;
+  width: auto !important;
+  max-width: none !important;
+  max-height: none !important;
+}
