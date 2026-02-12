@@ -47,4 +47,5 @@ Teaching
 
 Academic Service
 ======
+* Reviewer for ACM SIGKDD Conference on Knowledge Discovery and Data Mining 2026 (ACM KDD 2026) (CCF-A, CORE-A*)
 * Reviewer for IEEE 28th International Conference on Computer Supported Cooperative Work in Design (CSCWD 2025)
