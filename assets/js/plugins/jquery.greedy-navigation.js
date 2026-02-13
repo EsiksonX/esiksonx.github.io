@@ -14,6 +14,18 @@ var $hlinks = $('#site-nav .hidden-links');
 var breaks = [];
 var mobileBreakpoint = 924;
 
+function isMobileNavMode() {
+  if (!window.matchMedia) {
+    return window.innerWidth <= mobileBreakpoint;
+  }
+
+  return (
+    window.matchMedia('(max-width: ' + mobileBreakpoint + 'px)').matches ||
+    window.matchMedia('(hover: none) and (pointer: coarse)').matches ||
+    window.innerWidth <= mobileBreakpoint
+  );
+}
+
 function updateLayoutOffsets() {
   var mastheadHeight = $('.masthead').height();
   $('body').css('padding-top', mastheadHeight + 'px');
@@ -35,7 +47,7 @@ function moveHiddenToVisible() {
 }
 
 function updateNav() {
-  var isMobile = window.matchMedia && window.matchMedia('(max-width: ' + mobileBreakpoint + 'px)').matches;
+  var isMobile = isMobileNavMode();
 
   if (isMobile) {
     while ($vlinks.children('*:not(.persist)').length > 0) {
@@ -43,6 +55,8 @@ function updateNav() {
     }
 
     $btn.removeClass('hidden');
+    $btn.removeClass('close');
+    $hlinks.addClass('hidden');
     $btn.attr('count', $hlinks.children().length);
     updateLayoutOffsets();
     return;
