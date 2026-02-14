@@ -7,11 +7,16 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+      DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+      DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+      DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 你的站点是 Jekyll（AcademicPages/Minimal Mistakes），这里直接构建
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -23,21 +28,42 @@ jobs:
           JEKYLL_ENV=production bundle exec jekyll build -d _site
 
       - name: Prepare SSH key
+        shell: bash
         run: |
+          set -euo pipefail
+
+          # 关键：缺 secrets 直接给出明确错误（别等到 ssh-keyscan 才炸）
+          : "${DEPLOY_HOST:?Missing secret DEPLOY_HOST}"
+          : "${DEPLOY_USER:?Missing secret DEPLOY_USER}"
+          : "${DEPLOY_SSH_KEY:?Missing secret DEPLOY_SSH_KEY}"
+
+          PORT="${DEPLOY_PORT:-22}"
+
           mkdir -p ~/.ssh
-          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 700 ~/.ssh
+
+          # 用 printf 保留多行内容；顺便去掉可能的 CRLF
+          printf '%s' "$DEPLOY_SSH_KEY" | tr -d '\r' > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -p "${{ secrets.DEPLOY_PORT || 22 }}" -H "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts
+
+          ssh-keyscan -p "$PORT" -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
 
       - name: Rsync to server
+        shell: bash
         run: |
+          set -euo pipefail
+          PORT="${DEPLOY_PORT:-22}"
           rsync -az --delete \
-            -e "ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.DEPLOY_PORT || 22 }}" \
+            -e "ssh -i ~/.ssh/id_ed25519 -p $PORT" \
             _site/ \
-            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/var/www/yangxiang-site/
+            "${DEPLOY_USER}@${DEPLOY_HOST}:/var/www/yangxiang-site/"
 
-      - name: Fix SELinux context + reload nginx
+      # 可选：如果你已经把 /var/www/yangxiang-site 的 SELinux/权限一次性处理好了，这步可以删掉
+      - name: Restore SELinux context + reload nginx (optional)
+        shell: bash
         run: |
-          ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.DEPLOY_PORT || 22 }} \
-            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
+          set -euo pipefail
+          PORT="${DEPLOY_PORT:-22}"
+          ssh -i ~/.ssh/id_ed25519 -p "$PORT" \
+            "${DEPLOY_USER}@${DEPLOY_HOST}" \
             "sudo /sbin/restorecon -Rv /var/www/yangxiang-site && sudo /bin/systemctl reload nginx"
