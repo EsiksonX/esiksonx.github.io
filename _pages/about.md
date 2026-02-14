@@ -8,7 +8,7 @@ redirect_from:
 ---
 
 ## About Me
-I am a second-year PhD Candidate in Computer Science Department at the University of Liverpool (UoL), based at Xi'an Jiaotong-Liverpool University (XJTLU), jointly supervised by Dr. Chengtao Ji, Prof. Yong Yue (XJTLU) and Dr. Lutz Oettershagen (UoL).
+I am a third-year PhD Candidate in Computer Science Department at the University of Liverpool (UoL), based at Xi'an Jiaotong-Liverpool University (XJTLU), jointly supervised by Dr. Chengtao Ji, Prof. Yong Yue (XJTLU) and Dr. Lutz Oettershagen (UoL).
 
 My research interests include trustworthy graph learning and recommendation systems. I am particularly interested in exploring the robustness, explainability, and fairness of graph neural networks (GNNs) and their applications in various domains. You can refer to my publications for more details about my research work.
 
