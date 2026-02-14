@@ -30,40 +30,22 @@ jobs:
       - name: Prepare SSH key
         shell: bash
         run: |
-          set -euo pipefail
+            set -euo pipefail
 
-          # 关键：缺 secrets 直接给出明确错误（别等到 ssh-keyscan 才炸）
-          : "${DEPLOY_HOST:?Missing secret DEPLOY_HOST}"
-          : "${DEPLOY_USER:?Missing secret DEPLOY_USER}"
-          : "${DEPLOY_SSH_KEY:?Missing secret DEPLOY_SSH_KEY}"
+            mkdir -p ~/.ssh
+            chmod 700 ~/.ssh
 
-          PORT="${DEPLOY_PORT:-22}"
+            # 写入私钥：去 CRLF，保证结尾有 LF
+            printf '%s\n' "${{ secrets.DEPLOY_SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_ed25519
+            chmod 600 ~/.ssh/id_ed25519
 
-          mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
+            # 只打印头尾，不泄露 key 内容
+            head -n 1 ~/.ssh/id_ed25519
+            tail -n 1 ~/.ssh/id_ed25519
 
-          # 用 printf 保留多行内容；顺便去掉可能的 CRLF
-          printf '%s' "$DEPLOY_SSH_KEY" | tr -d '\r' > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
+            # 校验：如果 key 文件有隐藏字符/缺换行/格式损坏，这里会直接失败
+            ssh-keygen -y -f ~/.ssh/id_ed25519 >/dev/null
 
-          ssh-keyscan -p "$PORT" -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
-
-      - name: Rsync to server
-        shell: bash
-        run: |
-          set -euo pipefail
-          PORT="${DEPLOY_PORT:-22}"
-          rsync -az --delete \
-            -e "ssh -i ~/.ssh/id_ed25519 -p $PORT" \
-            _site/ \
-            "${DEPLOY_USER}@${DEPLOY_HOST}:/var/www/yangxiang-site/"
-
-      # 可选：如果你已经把 /var/www/yangxiang-site 的 SELinux/权限一次性处理好了，这步可以删掉
-      - name: Restore SELinux context + reload nginx (optional)
-        shell: bash
-        run: |
-          set -euo pipefail
-          PORT="${DEPLOY_PORT:-22}"
-          ssh -i ~/.ssh/id_ed25519 -p "$PORT" \
-            "${DEPLOY_USER}@${DEPLOY_HOST}" \
-            "sudo /sbin/restorecon -Rv /var/www/yangxiang-site && sudo /bin/systemctl reload nginx"
+            PORT="${{ secrets.DEPLOY_PORT }}"
+            PORT="${PORT:-22}"
+            ssh-keyscan -p "$PORT" -H "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts
