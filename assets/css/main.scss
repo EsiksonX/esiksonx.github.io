@@ -124,7 +124,7 @@
 //     }
 
 //     .update-card-describe {
-//       margin-top: 0.5em;         /* 徽标下面与描述之间的距离 */
+//       margin-top: 0.5em;
 //       font-size: 0.9em;
 //       color: #555;
 //       line-height: 1.3;
@@ -146,15 +146,15 @@
   }
 
   .update-card-deco {
-    width: 6px;                 // 和 pub-card 一致（你也可以保留 4px）
-    background-color: #ff6600;  // 保留你的橙色
+    width: 6px;
+    background-color: #ff6600;
   }
 
   .update-card-content-wrapper {
     display: flex;
     flex: 1;
     text-align: left;
-    min-width: 0;               // 防止 flex 子元素撑爆导致挤压
+    min-width: 0;
   }
 
   .update-card-thumb {
@@ -199,27 +199,26 @@
       line-height: 1.2;
     }
 
-    /* ✅ 关键：badge 区域按 pub-card 的方式处理 */
     .update-card-badges {
       display: flex;
       align-items: center;
-      flex-wrap: wrap;        // 不够就换行，避免挤压/重叠
-      column-gap: 0.9em;      // 横向间距更大
-      row-gap: 0.4em;         // 换行后的纵向间距
+      flex-wrap: wrap;
+      column-gap: 0.9em;
+      row-gap: 0.4em;
 
       .badge-link {
         display: inline-flex;
         align-items: center;
         height: 20px;
         line-height: 0;
-        flex: 0 0 auto;       // 不允许被 flex 压缩（避免“缩放难看”）
+        flex: 0 0 auto;
       }
 
       .badge-icon {
         display: block;
         height: 100%;
         width: auto;
-        max-width: none;      // 取消 100% 限制，避免被拉伸/压缩
+        max-width: none;
         max-height: none;
       }
     }
@@ -249,7 +248,7 @@
 
   .pub-card-deco {
     width: 6px;
-    background-color: #888;  // 默认色，如果没有 pub_type 匹配的话
+    background-color: #888;
   }
 
   .pub-card-content-wrapper {
@@ -328,19 +327,19 @@
 
   &.type-journal-articles {
     .pub-card-deco {
-      background-color: #007bff;  /* 蓝色 */
+      background-color: #007bff;
     }
   }
 
   &.type-conference-papers {
     .pub-card-deco {
-      background-color: #28a745;  /* 绿色 */
+      background-color: #28a745;
     }
   }
 
   &.type-preprint {
     .pub-card-deco {
-      background-color: #dc3545;  /* 红色 */
+      background-color: #dc3545;
     }
   }
   .pub-card-body {
@@ -353,7 +352,7 @@
     .pub-card-year {
       font-size: 0.9em;
       font-weight: 600;
-      color: #007bff;  /* 你可以根据 type 调色，或者统一色 */
+      color: #007bff;
       margin-bottom: 0.25em;
     }
 
@@ -393,4 +392,25 @@
       }
     }
   }
+}
+
+.pub-card .pub-card-body .pub-card-badges{
+  display: flex !important;
+  align-items: center;
+  flex-wrap: wrap !important;
+  column-gap: 0.9em !important;
+  row-gap: 0.4em !important;
+}
+
+.pub-card .pub-card-body .pub-card-badges .badge-link{
+  width: auto !important;
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+}
+
+.pub-card .pub-card-body .pub-card-badges .badge-icon{
+  height: 20px !important;
+  width: auto !important;
+  max-width: none !important;
+  max-height: none !important;
 }
