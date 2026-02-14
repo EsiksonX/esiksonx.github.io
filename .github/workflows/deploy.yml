@@ -2,50 +2,33 @@ name: Deploy to Tencent Cloud (RHEL)
 
 on:
   push:
-    branches: ["master"]
+    branches: [master]
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-    env:
-      DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
-      DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
-      DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
-      DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.3"
           bundler-cache: true
 
-      - name: Build site
-        run: |
-          JEKYLL_ENV=production bundle exec jekyll build -d _site
+      - run: JEKYLL_ENV=production bundle exec jekyll build -d _site
 
-      - name: Prepare SSH key
+      - name: Rsync to server
         shell: bash
         run: |
-            set -euo pipefail
-
-            mkdir -p ~/.ssh
-            chmod 700 ~/.ssh
-
-            # 写入私钥：去 CRLF，保证结尾有 LF
-            printf '%s\n' "${{ secrets.DEPLOY_SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_ed25519
-            chmod 600 ~/.ssh/id_ed25519
-
-            # 只打印头尾，不泄露 key 内容
-            head -n 1 ~/.ssh/id_ed25519
-            tail -n 1 ~/.ssh/id_ed25519
-
-            # 校验：如果 key 文件有隐藏字符/缺换行/格式损坏，这里会直接失败
-            ssh-keygen -y -f ~/.ssh/id_ed25519 >/dev/null
-
-            PORT="${{ secrets.DEPLOY_PORT }}"
-            PORT="${PORT:-22}"
-            ssh-keyscan -p "$PORT" -H "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts
+          set -euo pipefail
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "${{ secrets.DEPLOY_SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          PORT="${{ secrets.DEPLOY_PORT }}"
+          PORT="${PORT:-22}"
+          ssh-keyscan -p "$PORT" -H "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts
+          rsync -az --delete \
+            -e "ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes -p $PORT" \
+            _site/ \
+            "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/var/www/yangxiang-site/"
